@@ -1,17 +1,25 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <HelloWorld msg="Welcome SIR"/>
+    <StartScreen/>
+    <QuestionScreen/>
+    <ResultsScreen/>
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
+import StartScreen from './components/StartScreen.vue'
+import QuestionScreen from './components/QuestionScreen.vue'
+import ResultsScreen from './components/ResultsScreen.vue'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    HelloWorld,
+    StartScreen,
+    QuestionScreen,
+    ResultsScreen
   }
 }
 </script>
