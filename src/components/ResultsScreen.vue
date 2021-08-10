@@ -1,3 +1,3 @@
 <template>
-    <h2>Hej Marcus</h2>
+    <h2>Results Screen</h2>
 </template>

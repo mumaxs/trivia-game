@@ -1,3 +1,3 @@
 <template>
-    <h2>Hej David</h2>
+    <h2>Question Screen</h2>
 </template>
