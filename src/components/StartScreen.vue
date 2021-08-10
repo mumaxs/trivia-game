@@ -5,11 +5,12 @@
       v-model="numberOfQuestions"
       id="questions"
       type="text"
+      placeholder="Number of questions"
       required
     />
 
     <select class="choose-category" v-model="chosenCategory">
-      <option selected>Choose Category</option>
+      <option value="" disabled selected>Choose Category</option>
       <option
         v-for="category in this.categories.trivia_categories"
         v-bind:key="category.id"
@@ -19,14 +20,14 @@
     </select>
 
     <select class="chose-game-difficulty" v-model="chosenDifficulty">
-      <option selected>Choose Difficulty</option>
+      <option value="" disabled selected>Choose Difficulty</option>
       <option v-for="difficulty in this.difficulties" :key="difficulty.id">
         {{ difficulty.name }}
       </option>
     </select>
 
     <select class="choose-game-style" v-model="chosenGameStyle">
-      <option selected>Choose Game</option>
+      <option value="" disabled selected>Choose Game</option>
       <option v-for="game in this.games" :key="game.id">{{ game.name }}</option>
     </select>
 
@@ -39,13 +40,15 @@ export default {
   name: "StartScreen",
   data() {
     return {
-      rootGameUrl: "https://opentdb.com/api.php?amount=",
-      categoryUrl: "https://opentdb.com/api_category.php",
       categories: [],
       numberOfQuestions: "",
       chosenCategory: "",
       chosenDifficulty: "",
       chosenGameStyle: "",
+      categoryId: "",
+      difficultyId: "",
+      gameTypeId: "",
+      startGameUrl: "",
       games: [
         { id: "multiple", name: "Multipy Awnser" },
         { id: "boolean", name: "True or False" },
@@ -70,33 +73,43 @@ export default {
     setGameUrl() {
       /** https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=boolean */
       /** https://opentdb.com/api.php?amount=10&category=14&difficulty=medium&type=multiple */
-      let quest = this.numberOfQuestions;
-      console.log(quest);
-      let cat = "";
+
+      //get selected category id
       for (let i = 0; i < this.categories.trivia_categories.length; i++) {
         if (this.categories.trivia_categories[i].name === this.chosenCategory) {
-          cat = this.categories.trivia_categories[i].id;
+          this.categoryId = this.categories.trivia_categories[i].id;
         }
       }
-      console.log(cat);
-
-      let diff = "";
+      //get selected difficulty id
       for (let i = 0; i < this.difficulties.length; i++) {
         if (this.difficulties[i].name === this.chosenDifficulty) {
-          diff = this.difficulties[i].id;
+          this.difficultyId = this.difficulties[i].id;
         }
       }
-      console.log(diff);
-
-      let type = "";
+      //get selected gamestyle id
       for (let i = 0; i < this.games.length; i++) {
         if (this.games[i].name === this.chosenGameStyle) {
-          type = this.games[i].id;
+          this.gameTypeId = this.games[i].id;
         }
       }
-      console.log(type);
-      let str = this.rootGameUrl + quest + "&category=" + cat + "&difficulty=" + diff + "&type=" + type;
-      console.log(str);
+      //set game api url
+      this.startGameUrl =
+        "https://opentdb.com/api.php?amount=" +
+        this.numberOfQuestions +
+        "&category=" +
+        this.categoryId +
+        "&difficulty=" +
+        this.difficultyId +
+        "&type=" +
+        this.gameTypeId;
+      console.log(this.startGameUrl);
+
+      this.$router.push({
+        name: "questions",
+        params: {
+          data: this.startGameUrl,
+        },
+      });
     },
   },
 };

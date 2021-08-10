@@ -12,15 +12,16 @@ const routes = [
         component: StartScreen
     },
     {
-        path: '/questionscreen',
-        name: 'questionscreen',
-        component: QuestionScreen
+        path: '/questions',
+        name: 'questions',
+        component: QuestionScreen,
+        props: true
     },
 
     /*{
-        path: '/questionscreen',
-        name: 'questionscreen',
-        component: QuestionScreen
+        path: '/results',
+        name: 'results',
+        component: ResultsScreen
     }*/
 ]
 
