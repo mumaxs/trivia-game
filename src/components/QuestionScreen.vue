@@ -12,7 +12,7 @@
         <button @click="nextQuestion()">Next question</button>
       </p>
       <p v-if="this.index === this.gameQuestions.length-1">
-        <button @click="submitScore()">Submit score</button>
+        <button @click="submitAnswers()">Submit score</button>
       </p>
     </div>
   </div>
@@ -32,6 +32,7 @@ export default {
       gameType: [],
       gameDifficulty: [],
       playerAnswers: [],
+      answerOrderForResults: [],
       index: 0,
     };
   },
@@ -93,6 +94,7 @@ export default {
         array[i] = array[randomIndex];
         array[randomIndex] = temp;
       }
+      this.answerOrderForResults.push(array);
       return array;
     },
     setAnswer(answer) {
@@ -109,7 +111,9 @@ export default {
              name: "results",
              params: {
                 playerAnswers: this.playerAnswers,
-                correctAnswer: this.gameRightAnswer,
+                correctAnswers: this.gameRightAnswer,
+                gameQuestions: this.gameQuestions,
+                answersInOrder: this.answerOrderForResults,
                 
              }
          })
