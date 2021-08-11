@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import StartScreen from './components/StartScreen.vue'
 import QuestionScreen from './components/QuestionScreen.vue'
+import ResultsScreen from './components/ResultsScreen.vue'
 
 Vue.use(VueRouter)
 
@@ -18,11 +19,12 @@ const routes = [
         props: true
     },
 
-    /*{
+    {
         path: '/results',
         name: 'results',
-        component: ResultsScreen
-    }*/
+        component: ResultsScreen,
+        props: true
+    }
 ]
 
 const router = new VueRouter({ routes });
