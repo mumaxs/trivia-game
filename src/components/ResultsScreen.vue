@@ -5,14 +5,14 @@
         <p v-for="question in gameQuestions" :key="question.index">{{question}}</p>
         <p v-for="answerOrder in answerInOrder" :key="answerOrder.index">{{answerOrder}}</p> -->
 
-        <div v-for="question in this.gameQuestions.length" :key="question.index">
-            <p>Question {{counter+1}}: {{getQuestion(counter)}}</p>
-            <p>Correct answer: {{getCorrectAnswer(counter)}}</p>
-            <p>Your answer: {{getPlayerAwnser(counter)}}</p>
+        <div v-for="counter in this.gameQuestions.length" :key="counter.index">
+            <p>Question {{counter}}: {{getQuestion(counter-1)}}</p>
+            <p>Correct answer: {{getCorrectAnswer(counter-1)}}</p>
+            <p>Your answer: {{getPlayerAwnser(counter-1)}}</p>
 
         </div>
 
-        <p>{{playerPoints}}</p>
+        <p>Score: {{playerPoints}}</p>
   </div>
 </template>
 
@@ -23,7 +23,6 @@ export default {
   data() {
     return {
       playerPoints: null,
-      counter: 0,
     };
   },
   created() {
@@ -35,7 +34,6 @@ export default {
   },
   methods: {
       getQuestion(index) {
-          this.counter++;
           return this.gameQuestions[index];
       },
       getCorrectAnswer(index){
