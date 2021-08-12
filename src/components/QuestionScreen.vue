@@ -1,10 +1,8 @@
 <template>
   <div>
     <h2>Question Screen</h2>
-    <p>PATH: {{ gameUrl }}</p>
     <div v-if="gameData">
       <p>{{ getQuestion(index) }}</p>
-      <p>{{ getAnswers(index) }}</p>
       <p v-for="answer in getAnswers(index)" :key="answer.index">
         <button @click="setAnswer(answer)">{{ answer }}</button>
       </p>

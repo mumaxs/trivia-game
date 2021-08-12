@@ -9,7 +9,6 @@
     <p>Score: {{ playerPoints }}</p>
     <button @click="playAgain()">Play again</button>
     <button @click="renderStartScreen()">Start screen</button>
-    <p>{{this.gameUrlApi}}</p>
   </div>
 </template>
 
