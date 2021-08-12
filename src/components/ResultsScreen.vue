@@ -1,25 +1,21 @@
 <template>
   <div>
-    <!--         <p v-for="answer in playerAnswers" :key="answer.index">{{answer}}</p>
-        <p v-for="correct in correctAnswer" :key="correct.index">{{correct}}</p>
-        <p v-for="question in gameQuestions" :key="question.index">{{question}}</p>
-        <p v-for="answerOrder in answerInOrder" :key="answerOrder.index">{{answerOrder}}</p> -->
+    <div v-for="counter in this.gameQuestions.length" :key="counter.index">
+      <p>Question {{ counter }}: {{ getQuestion(counter - 1) }}</p>
+      <p>Correct answer: {{ getCorrectAnswer(counter - 1) }}</p>
+      <p>Your answer: {{ getPlayerAwnser(counter - 1) }}</p>
+    </div>
 
-        <div v-for="counter in this.gameQuestions.length" :key="counter.index">
-            <p>Question {{counter}}: {{getQuestion(counter-1)}}</p>
-            <p>Correct answer: {{getCorrectAnswer(counter-1)}}</p>
-            <p>Your answer: {{getPlayerAwnser(counter-1)}}</p>
-
-        </div>
-
-        <p>Score: {{playerPoints}}</p>
+    <p>Score: {{ playerPoints }}</p>
+    <button @click="playAgain()">Play again</button>
+    <button @click="renderStartScreen()">Start screen</button>
   </div>
 </template>
 
 <script>
 export default {
   name: "ResultsScreen",
-  props: ["playerAnswers", "correctAnswers", "gameQuestions", "answersInOrder"],
+  props: ["playerAnswers", "correctAnswers", "gameQuestions", "answersInOrder", "gameUrlApi"],
   data() {
     return {
       playerPoints: null,
@@ -33,15 +29,28 @@ export default {
     }
   },
   methods: {
-      getQuestion(index) {
-          return this.gameQuestions[index];
-      },
-      getCorrectAnswer(index){
-          return this.correctAnswers[index];
-      },
-      getPlayerAwnser(index) {
-          return this.playerAnswers[index];
-      }
+    getQuestion(index) {
+      return this.gameQuestions[index];
+    },
+    getCorrectAnswer(index) {
+      return this.correctAnswers[index];
+    },
+    getPlayerAwnser(index) {
+      return this.playerAnswers[index];
+    },
+    renderStartScreen() {
+        this.$router.push({
+            name: 'startscreen'
+        });
+    },
+    playAgain() {
+        this.$router.push({
+            name: 'questions',
+            params: {
+                gameUrl: this.gameUrlApi,
+            }
+        });
+    },
   },
 };
 </script>
