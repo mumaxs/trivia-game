@@ -9,6 +9,7 @@
     <p>Score: {{ playerPoints }}</p>
     <button @click="playAgain()">Play again</button>
     <button @click="renderStartScreen()">Start screen</button>
+    <p>{{this.gameUrlApi}}</p>
   </div>
 </template>
 
@@ -18,7 +19,7 @@ export default {
   props: ["playerAnswers", "correctAnswers", "gameQuestions", "answersInOrder", "gameUrlApi"],
   data() {
     return {
-      playerPoints: null,
+      playerPoints: 0,
     };
   },
   created() {
@@ -27,6 +28,7 @@ export default {
         this.playerPoints += 10;
       }
     }
+    console.log(this.gameUrlApi)
   },
   methods: {
     getQuestion(index) {
@@ -44,6 +46,7 @@ export default {
         });
     },
     playAgain() {
+        console.log(this.gameUrlApi)
         this.$router.push({
             name: 'questions',
             params: {

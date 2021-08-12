@@ -104,7 +104,7 @@ export default {
       this.$router.push({
         name: "questions",
         params: {
-          data: this.startGameUrl,
+          gameUrl: this.startGameUrl,
         },
       });
     },

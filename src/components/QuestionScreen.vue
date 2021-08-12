@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>Question Screen</h2>
-    <p>PATH: {{ data }}</p>
+    <p>PATH: {{ gameUrl }}</p>
     <div v-if="gameData">
       <p>{{ getQuestion(index) }}</p>
       <p>{{ getAnswers(index) }}</p>
@@ -21,7 +21,7 @@
 <script>
 export default {
   name: "QuestionScreen",
-  props: ["data"],
+  props: ["gameUrl"],
   data() {
     return {
       gameData: null,
@@ -38,7 +38,7 @@ export default {
   },
   async created() {
     try {
-      const response = await fetch(this.data);
+      const response = await fetch(this.gameUrl);
       const gameJson = await response.json();
       this.gameData = gameJson;
 
@@ -108,7 +108,7 @@ export default {
           correctAnswers: this.gameRightAnswer,
           gameQuestions: this.gameQuestions,
           answersInOrder: this.answerOrderForResults,
-          gameUrlApi: this.data,
+          gameUrlApi: this.gameUrl,
         },
       });
     },
