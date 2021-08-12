@@ -30,8 +30,7 @@
       <option value="" disabled selected>Choose Game</option>
       <option v-for="game in this.games" :key="game.id">{{ game.name }}</option>
     </select>
-
-    <button @click="setGameUrl()">Start Game</button>
+    <button type="button" class="btn btn-primary" @click="setGameUrl()">Start Game</button>
   </div>
 </template>
 
