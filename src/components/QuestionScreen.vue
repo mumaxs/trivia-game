@@ -68,7 +68,13 @@ export default {
       });
     },
     getQuestion(index) {
-      return this.gameQuestions[index];
+      var temp = this.gameQuestions[index].replaceAll("&quot;", "")
+      temp = temp.replaceAll("&#039;", "");
+      temp = temp.replaceAll("&aacute;", "")
+      temp = temp.replaceAll("amp;", "")
+      temp = temp.replaceAll("&rsquo;", "")
+      console.log(this.gameQuestions[index]);
+      return temp;
     },
     getAnswers(index) {
       let temp = [];
