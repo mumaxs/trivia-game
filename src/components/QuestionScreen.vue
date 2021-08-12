@@ -1,22 +1,37 @@
 <template>
-  <div>
+  <div class="container">
     <h2>Question Screen</h2>
     <div v-if="gameData">
       <p>{{ getQuestion(index) }}</p>
-      <p v-for="answer in getAnswers(index)" :key="answer.index">
-        <button @click="setAnswer(answer)">{{ answer }}</button>
-      </p>
+
+      <div>
+        <div class="btn-group" role="group">
+          <div class="options row">
+            <div
+              class="col questionBox"
+              v-for="answer in getAnswers(index)"
+              :key="answer.index"
+            >
+              <button id="buttons" class="btn btn-secondary" @click="setAnswer(answer)">
+                {{ answer }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <p v-if="this.index != this.gameQuestions.length - 1">
-        <button @click="nextQuestion()">Next question</button>
+        <button class="btn btn-primary" @click="nextQuestion()">Next question</button>
       </p>
       <p v-if="this.index === this.gameQuestions.length - 1">
-        <button @click="submitAnswers()">Submit score</button>
+        <button class="btn btn-success" @click="submitAnswers()">Submit score</button>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+import { setStorage } from "../utils/storage";
 export default {
   name: "QuestionScreen",
   props: ["gameUrl"],
@@ -67,21 +82,28 @@ export default {
         this.gameType.push(t);
       });
     },
-    getQuestion(index) {
-      var temp = this.gameQuestions[index].replaceAll("&quot;", "")
+    encodeString(string) {
+      var temp = string.replaceAll("&quot;", "");
       temp = temp.replaceAll("&#039;", "");
-      temp = temp.replaceAll("&aacute;", "")
-      temp = temp.replaceAll("amp;", "")
-      temp = temp.replaceAll("&rsquo;", "")
-      console.log(this.gameQuestions[index]);
+      temp = temp.replaceAll("&aacute;", "");
+      temp = temp.replaceAll("amp;", "");
+      temp = temp.replaceAll("&rsquo;", "");
+      temp = temp.replaceAll("&iacute;", "");
+      return temp;
+    },
+    getQuestion(index) {
+      let temp = [];
+      temp.push(this.encodeString(this.gameQuestions[index]));
+      //let questions = this.encodeString(this.gameQuestions[index])
+      setStorage("encodedQuestions", temp);
       return temp;
     },
     getAnswers(index) {
       let temp = [];
       for (let i = 0; i < this.gameWrongAnswers[index].length; i++) {
-        temp.push(this.gameWrongAnswers[index][i]);
+        temp.push(this.encodeString(this.gameWrongAnswers[index][i]));
       }
-      temp.push(this.gameRightAnswer[index]);
+      temp.push(this.encodeString(this.gameRightAnswer[index]));
       temp = this.shuffle(temp);
       return temp;
     },
@@ -119,3 +141,18 @@ export default {
   },
 };
 </script>
+<style>
+#buttons {
+  padding: 2rem;
+  border-radius: 10px;
+  border-width: 10px;
+  border-color: #4e6392;
+}
+.h2 {
+  font-size: 4rem;
+}
+
+.questionBox {
+  height: 20vh;
+}
+</style>
