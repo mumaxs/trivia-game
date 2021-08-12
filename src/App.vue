@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <HelloWorld msg="Welcome SIR"/>
+    <HelloWorld msg="Trivial Game"/>
     <router-view></router-view>
   </div>
 </template>

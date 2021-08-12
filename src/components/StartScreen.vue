@@ -71,9 +71,6 @@ export default {
   },
   methods: {
     setGameUrl() {
-      /** https://opentdb.com/api.php?amount=10&category=9&difficulty=easy&type=boolean */
-      /** https://opentdb.com/api.php?amount=10&category=14&difficulty=medium&type=multiple */
-
       //get selected category id
       for (let i = 0; i < this.categories.trivia_categories.length; i++) {
         if (this.categories.trivia_categories[i].name === this.chosenCategory) {
@@ -107,7 +104,7 @@ export default {
       this.$router.push({
         name: "questions",
         params: {
-          data: this.startGameUrl,
+          gameUrl: this.startGameUrl,
         },
       });
     },
