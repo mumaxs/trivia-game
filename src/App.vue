@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <h2 id="appHeader">Trivial game</h2> 
     <router-view></router-view>
   </div>
 </template>
@@ -19,5 +20,8 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+}
+#appHeader {
+  margin-top: 7rem;
 }
 </style>

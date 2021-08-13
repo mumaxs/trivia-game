@@ -1,6 +1,7 @@
 <template>
   <div class="container" id="mainContainer">
-    <form>
+    <div id="form-div">
+      <form>
       <input
         name="nrOfQ"
         class="form-control"
@@ -41,6 +42,8 @@
         </button>
       </div>
     </form>
+    </div>
+    
   </div>
 </template>
 
@@ -88,6 +91,9 @@ export default {
        * Passes the created URL to QuestionsScreen compontent.
        */
     setGameUrl() {
+      if(this.numberOfQuestions >= 50) {
+        alert("Max number of questions is 50!")
+      } else {
       //get selected category id
       for (let i = 0; i < this.categories.trivia_categories.length; i++) {
         if (this.categories.trivia_categories[i].name === this.chosenCategory) {
@@ -125,7 +131,7 @@ export default {
           gameUrl: this.startGameUrl,
         },
       });
-    },
+    }}, 
   },
 };
 </script>
@@ -138,8 +144,13 @@ export default {
 }
 #mainContainer {
   display: grid;
-  width: 100vw;
-  max-width: 65%;
+  max-width: 35%;
   max-height: 65%;
+  margin-top: 10rem;
+  display: block;
+  margin-bottom: 10px;
+}
+#formDiv {
+  background-color: brown;
 }
 </style>

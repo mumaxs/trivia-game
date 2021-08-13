@@ -1,8 +1,6 @@
 <template>
-  <div class="container">
-    
+  <div class="container" id="resultContainer">
       <table class="table">
-        
         <thead>
           <th>Question {{counter}}</th>
           <th>Correct answer </th>
@@ -109,4 +107,7 @@ export default {
 </script>
 
 <style>
+#resultContainer {
+  margin-top: 10rem;
+}
 </style>
