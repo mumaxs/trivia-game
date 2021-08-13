@@ -1,52 +1,40 @@
 <template>
-  <div class="container">
+  <div class="container" id="mainContainer">
     <form>
-      <div class="row">
-        <div class="col">
-          <input
-            name="nrOfQ"
-            class="form-control"
-            v-model="numberOfQuestions"
-            id="questions"
-            type="text"
-            placeholder="Number of questions"
-            required
-          />
-        </div>
-        <div class="col">
-          <select class="form-select" v-model="chosenCategory">
-            <option value="" disabled selected>Choose Category</option>
-            <option
-              v-for="category in this.categories.trivia_categories"
-              v-bind:key="category.id"
-            >
-              {{ category.name }}
-            </option>
-          </select>
-        </div>
-      </div>
+      <input
+        name="nrOfQ"
+        class="form-control"
+        v-model="numberOfQuestions"
+        id="questions"
+        type="text"
+        placeholder="Number of questions"
+        required
+      />
 
-      <div class="row" id="row2">
-        <div class="col">
-          <select class="form-select" v-model="chosenDifficulty">
-            <option value="" disabled selected>Choose Difficulty</option>
-            <option
-              v-for="difficulty in this.difficulties"
-              :key="difficulty.id"
-            >
-              {{ difficulty.name }}
-            </option>
-          </select>
-        </div>
-        <div class="col">
-          <select class="form-select" v-model="chosenGameStyle">
-            <option value="" disabled selected>Choose Game</option>
-            <option v-for="game in this.games" :key="game.id">
-              {{ game.name }}
-            </option>
-          </select>
-        </div>
-      </div>
+      <select class="form-select" v-model="chosenCategory">
+        <option value="" disabled selected>Choose Category</option>
+        <option
+          v-for="category in this.categories.trivia_categories"
+          v-bind:key="category.id"
+        >
+          {{ category.name }}
+        </option>
+      </select>
+
+      <select class="form-select" v-model="chosenDifficulty">
+        <option value="" disabled selected>Choose Difficulty</option>
+        <option v-for="difficulty in this.difficulties" :key="difficulty.id">
+          {{ difficulty.name }}
+        </option>
+      </select>
+
+      <select class="form-select" v-model="chosenGameStyle">
+        <option value="" disabled selected>Choose Game</option>
+        <option v-for="game in this.games" :key="game.id">
+          {{ game.name }}
+        </option>
+      </select>
+
       <div id="buttonDiv">
         <button type="button" class="btn btn-primary" @click="setGameUrl()">
           Start Game
@@ -136,8 +124,13 @@ export default {
 #row2 {
   margin-top: 50px;
 }
-
 #buttonDiv {
   margin-top: 30px;
+}
+#mainContainer {
+  display: grid;
+  width: 100vw;
+  max-width: 65%;
+  max-height: 65%;
 }
 </style>
