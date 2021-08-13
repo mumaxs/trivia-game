@@ -53,6 +53,9 @@ export default {
       playerQuestionPoints: [],
     };
   },
+  /**
+   * Calculate the player score and also sets indivitual points for each question.
+   */
   created() {
     //this.gameQuestions = getStorage("encodeQuestions")
     for (let i = 0; i < this.correctAnswers.length; i++) {
@@ -78,11 +81,18 @@ export default {
     getPlayerAwnser(index) {
       return this.playerAnswers[index];
     },
+    /**
+     * Returns to start screen.
+     */
     renderStartScreen() {
       this.$router.push({
         name: "startscreen",
       });
     },
+    /**
+     * Starts a game with the same settings as before.
+     * Passes the game api url to be able to fetch new questions.
+     */
     playAgain() {
       console.log(this.gameUrlApi);
       this.$router.push({

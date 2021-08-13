@@ -49,39 +49,48 @@ export default {
       index: 0,
     };
   },
+  /**
+   * Fetched the jsonfile with game data with the passed game api url from startscreen component.
+   */
   async created() {
     try {
       const response = await fetch(this.gameUrl);
       const gameJson = await response.json();
       this.gameData = gameJson;
-
-      this.setArrays();
+      
+      this.setArrays(); // put the data into corresponing array.
     } catch (error) {
       console.error(error);
     }
   },
   methods: {
+      /**
+       * Seperate the data that are fetched in different arrays.
+       */
     setArrays() {
       this.gameData.results.forEach((x) => {
-        let q = x.question;
-        this.gameQuestions.push(this.decodeString(q));
+        let question = x.question;
+        this.gameQuestions.push(this.decodeString(question));
 
-        let ia = x.incorrect_answers;
-        this.gameWrongAnswers.push(ia);
+        let incorrectAnswers = x.incorrect_answers;
+        this.gameWrongAnswers.push(incorrectAnswers);
 
-        let ca = x.correct_answer;
-        this.gameRightAnswer.push(this.decodeString(ca));
+        let correctAnswer = x.correct_answer;
+        this.gameRightAnswer.push(this.decodeString(correctAnswer));
 
-        let c = x.category;
-        this.gameCategory.push(this.decodeString(c));
+        let cate = x.category;
+        this.gameCategory.push(this.decodeString(cate));
 
-        let d = x.difficulty;
-        this.gameDifficulty.push(d);
+        let difficulty = x.difficulty;
+        this.gameDifficulty.push(difficulty);
 
-        let t = x.type;
-        this.gameType.push(t);
+        let gType = x.type;
+        this.gameType.push(gType);
       });
     },
+    /**
+     * Method that decode(replace) HTML entities.
+     */
     decodeString(string) {
       return string
         .replace(/&Agrave;/g, "À")
@@ -300,15 +309,21 @@ export default {
     getQuestion(index) {
       return this.gameQuestions[index];
     },
+    /**
+     * Puts the wrong answers and the right answer in a array and then shuffel that array so the answers have different positions.
+     */
     getAnswers(index) {
       let temp = [];
       for (let i = 0; i < this.gameWrongAnswers[index].length; i++) {
         temp.push(this.decodeString(this.gameWrongAnswers[index][i]));
       }
       temp.push(this.decodeString(this.gameRightAnswer[index]));
-      temp = this.shuffle(temp);
+      temp = this.shuffle(temp); //shuffle the array
       return temp;
     },
+    /**
+     * Shuffle the answers in a array.
+     */
     shuffle(array) {
       for (let i = array.length - 1; i > 0; i--) {
         const randomIndex = Math.floor(Math.random() * (i + 1));
@@ -319,15 +334,25 @@ export default {
       this.answerOrderForResults.push(array);
       return array;
     },
+    /**
+     * Sets the players answer for a speficit question.
+     */
     setAnswer(answer) {
       this.playerAnswers[this.index] = answer;
       this.playerAnswers.forEach((element) => {
         console.log(element);
       });
     },
+    /**
+     * Are called when next question button are clicked. The index helps to iterate in setAnswer() array. 
+     */
     nextQuestion() {
       this.index++;
     },
+    /**
+     * Called when submit answers are clicked. Passes the playerAnswers, correctAnswers, gameQuestions to be able to show the results and score.
+     * Also passes the game API url so that the player can choose to play with the same settings again.
+     */
     submitAnswers() {
       this.$router.push({
         name: "results",
