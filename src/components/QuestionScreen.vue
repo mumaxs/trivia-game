@@ -2,29 +2,40 @@
   <div class="container" id="questionContainer">
     <div v-if="gameData">
       <h3>{{ getQuestion(index) }}</h3>
-        <div>
-          <div class="row">
-            <div class="btn-group" v-for="answer in getAnswers(index)" :key="answer.index">
-              <button id="buttons" class="btn btn-secondary" @click="setAnswer(answer)">
-                {{ answer }}
-              </button>
-            </div>
+      <div>
+        <div class="row">
+          <div
+            class="btn-group"
+            v-for="answer in getAnswers(index)"
+            :key="answer.index"
+          >
+            <button
+              id="buttons"
+              class="btn btn-secondary"
+              @click="setAnswer(answer)"
+            >
+              {{ answer }}
+            </button>
           </div>
         </div>
+      </div>
 
       <p v-if="this.index != this.gameQuestions.length - 1">
-        <button class="btn btn-primary" @click="nextQuestion()">Next question</button>
+        <button class="btn btn-primary" @click="nextQuestion()">
+          Next question
+        </button>
       </p>
       <p v-if="this.index === this.gameQuestions.length - 1">
-        <button class="btn btn-success" @click="submitAnswers()">Submit score</button>
+        <button class="btn btn-success" @click="submitAnswers()">
+          Submit score
+        </button>
       </p>
     </div>
   </div>
 </template>
 
 <script>
-//import { setStorage } from "../utils/storage";
-import {decode} from 'html-entities';
+import { decode } from "html-entities"; //import library to decode html enteties.
 export default {
   name: "QuestionScreen",
   props: ["gameUrl"],
@@ -46,20 +57,23 @@ export default {
    * Fetched the jsonfile with game data with the passed game api url from startscreen component.
    */
   async created() {
+      if (this.gameUrl === undefined) {
+          this.$router.push('/')
+      }
     try {
       const response = await fetch(this.gameUrl);
       const gameJson = await response.json();
       this.gameData = gameJson;
-      
+
       this.setArrays(); // put the data into corresponing array.
     } catch (error) {
-      console.error(error);
+      console.log(error);
     }
   },
   methods: {
-      /**
-       * Seperate the data that are fetched in different arrays.
-       */
+    /**
+     * Seperate the data that are fetched in different arrays.
+     */
     setArrays() {
       this.gameData.results.forEach((x) => {
         let question = x.question;
@@ -119,27 +133,34 @@ export default {
       });
     },
     /**
-     * Are called when next question button are clicked. The index helps to iterate in setAnswer() array. 
+     * Are called when next question button are clicked. The index helps to iterate in setAnswer() array.
      */
     nextQuestion() {
-
-      this.index++;
+      if (!this.playerAnswers[this.index]) {
+        alert("Choose an answer!");
+      } else {
+        this.index++;
+      }
     },
     /**
      * Called when submit answers are clicked. Passes the playerAnswers, correctAnswers, gameQuestions to be able to show the results and score.
      * Also passes the game API url so that the player can choose to play with the same settings again.
      */
     submitAnswers() {
-      this.$router.push({
-        name: "results",
-        params: {
-          playerAnswers: this.playerAnswers,
-          correctAnswers: this.gameRightAnswer,
-          gameQuestions: this.gameQuestions,
-          answersInOrder: this.answerOrderForResults,
-          gameUrlApi: this.gameUrl,
-        },
-      });
+      if (!this.playerAnswers[this.index]) {
+        alert("Choose an answer!");
+      } else {
+        this.$router.push({
+          name: "results",
+          params: {
+            playerAnswers: this.playerAnswers,
+            correctAnswers: this.gameRightAnswer,
+            gameQuestions: this.gameQuestions,
+            answersInOrder: this.answerOrderForResults,
+            gameUrlApi: this.gameUrl,
+          },
+        });
+      }
     },
   },
 };
@@ -157,11 +178,11 @@ export default {
   font-size: 1.5rem;
 }
 #buttons:hover {
-  background: #00EEEE;
-  color: #FFF;
+  background: #00eeee;
+  color: #fff;
 }
 #buttons:focus {
-  background: #00EEEE;
+  background: #00eeee;
   position: sticky;
 }
 h3 {
@@ -170,7 +191,7 @@ h3 {
 }
 #questionContainer {
   display: block;
-  max-width: 35%; 
+  max-width: 35%;
   max-height: 65%;
   cursor: pointer;
   margin-top: 10rem;

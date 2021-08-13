@@ -2,48 +2,47 @@
   <div class="container" id="mainContainer">
     <div id="form-div">
       <form>
-      <input
-        name="nrOfQ"
-        class="form-control"
-        v-model="numberOfQuestions"
-        id="questions"
-        type="text"
-        placeholder="Number of questions"
-        required
-      />
+        <input
+          name="nrOfQ"
+          class="form-control"
+          v-model="numberOfQuestions"
+          id="questions"
+          type="number"
+          placeholder="Number of questions"
+          required
+        />
 
-      <select class="form-select" v-model="chosenCategory">
-        <option value="" disabled selected>Choose Category</option>
-        <option
-          v-for="category in this.categories.trivia_categories"
-          v-bind:key="category.id"
-        >
-          {{ category.name }}
-        </option>
-      </select>
+        <select class="form-select" v-model="chosenCategory">
+          <option value="" disabled selected>Choose Category</option>
+          <option
+            v-for="category in this.categories.trivia_categories"
+            v-bind:key="category.id"
+          >
+            {{ category.name }}
+          </option>
+        </select>
 
-      <select class="form-select" v-model="chosenDifficulty">
-        <option value="" disabled selected>Choose Difficulty</option>
-        <option v-for="difficulty in this.difficulties" :key="difficulty.id">
-          {{ difficulty.name }}
-        </option>
-      </select>
+        <select class="form-select" v-model="chosenDifficulty">
+          <option value="" disabled selected>Choose Difficulty</option>
+          <option v-for="difficulty in this.difficulties" :key="difficulty.id">
+            {{ difficulty.name }}
+          </option>
+        </select>
 
-      <select class="form-select" v-model="chosenGameStyle">
-        <option value="" disabled selected>Choose Game</option>
-        <option v-for="game in this.games" :key="game.id">
-          {{ game.name }}
-        </option>
-      </select>
+        <select class="form-select" v-model="chosenGameStyle">
+          <option value="" disabled selected>Choose Game</option>
+          <option v-for="game in this.games" :key="game.id">
+            {{ game.name }}
+          </option>
+        </select>
 
-      <div id="buttonDiv">
-        <button type="button" class="btn btn-primary" @click="setGameUrl()">
-          Start Game
-        </button>
-      </div>
-    </form>
+        <div id="buttonDiv">
+          <button type="button" class="btn btn-primary" @click="setGameUrl()">
+            Start Game
+          </button>
+        </div>
+      </form>
     </div>
-    
   </div>
 </template>
 
@@ -73,7 +72,7 @@ export default {
     };
   },
   /**
-   * Async created() that runs when when component is loaded. 
+   * Async created() that runs when when component is loaded.
    * Fetched the different categories that a player can choose between.
    */
   async created() {
@@ -86,52 +85,97 @@ export default {
     }
   },
   methods: {
-      /**
-       * Method for start Game Button. Get all vaules in select and input fields and build a API url for the game.
-       * Passes the created URL to QuestionsScreen compontent.
-       */
-    setGameUrl() {
-      if(this.numberOfQuestions >= 50 || this.numberOfQuestions === "") {
-        alert("Max number of questions is 50!")
-      } else {
-      //get selected category id
-      for (let i = 0; i < this.categories.trivia_categories.length; i++) {
-        if (this.categories.trivia_categories[i].name === this.chosenCategory) {
-          this.categoryId = this.categories.trivia_categories[i].id;
-        }
-      }
-      //get selected difficulty id
-      for (let i = 0; i < this.difficulties.length; i++) {
-        if (this.difficulties[i].name === this.chosenDifficulty) {
-          this.difficultyId = this.difficulties[i].id;
-        }
-      }
-      //get selected gamestyle id
-      for (let i = 0; i < this.games.length; i++) {
-        if (this.games[i].name === this.chosenGameStyle) {
-          this.gameTypeId = this.games[i].id;
-        }
-      }
-      //set game api url
-      this.startGameUrl =
-        "https://opentdb.com/api.php?amount=" +
-        this.numberOfQuestions +
-        "&category=" +
-        this.categoryId +
-        "&difficulty=" +
-        this.difficultyId +
-        "&type=" +
-        this.gameTypeId;
-      //console.log(this.startGameUrl);
+    /**
+     * Seperate the data that are fetched in different arrays.
+     */
+    setArrays() {
+      this.gameData.results.forEach((x) => {
+        let question = x.question;
+        this.gameQuestions.push(decode(question));
 
-      //render QuestionsScreen  
-      this.$router.push({
-        name: "questions",
-        params: {
-          gameUrl: this.startGameUrl,
-        },
+        let incorrectAnswers = x.incorrect_answers;
+        this.gameWrongAnswers.push(incorrectAnswers);
+
+        let correctAnswer = x.correct_answer;
+        this.gameRightAnswer.push(decode(correctAnswer));
+
+        let cate = x.category;
+        this.gameCategory.push(decode(cate));
+
+        let difficulty = x.difficulty;
+        this.gameDifficulty.push(difficulty);
+
+        let gType = x.type;
+        this.gameType.push(gType);
       });
-    }}, 
+    },
+    getQuestion(index) {
+      return this.gameQuestions[index];
+    },
+    /**
+     * Puts the wrong answers and the right answer in a array and then shuffel that array so the answers have different positions.
+     */
+    getAnswers(index) {
+      let temp = [];
+      for (let i = 0; i < this.gameWrongAnswers[index].length; i++) {
+        temp.push(decode(this.gameWrongAnswers[index][i]));
+      }
+      temp.push(decode(this.gameRightAnswer[index]));
+      temp = this.shuffle(temp); //shuffle the array
+      return temp;
+    },
+    /**
+     * Shuffle the answers in a array.
+     */
+    shuffle(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const randomIndex = Math.floor(Math.random() * (i + 1));
+        const temp = array[i];
+        array[i] = array[randomIndex];
+        array[randomIndex] = temp;
+      }
+      this.answerOrderForResults.push(array);
+      return array;
+    },
+    /**
+     * Sets the players answer for a speficit question.
+     */
+    setAnswer(answer) {
+      this.playerAnswers[this.index] = answer;
+      this.playerAnswers.forEach((element) => {
+        console.log(element);
+      });
+    },
+    /**
+     * Are called when next question button are clicked. The index helps to iterate in setAnswer() array.
+     */
+    nextQuestion() {
+      if (!this.playerAnswers[this.index]) {
+        alert("Choose an answer!");
+      } else {
+        this.index++;
+      }
+    },
+    /**
+     * Called when submit answers are clicked. Passes the playerAnswers, correctAnswers, gameQuestions to be able to show the results and score.
+     * Also passes the game API url so that the player can choose to play with the same settings again.
+     */
+    submitAnswers() {
+      if (!this.playerAnswers[this.index]) {
+        alert("Choose an answer!");
+      } else {
+        this.$router.push({
+          name: "results",
+          params: {
+            playerAnswers: this.playerAnswers,
+            correctAnswers: this.gameRightAnswer,
+            gameQuestions: this.gameQuestions,
+            answersInOrder: this.answerOrderForResults,
+            gameUrlApi: this.gameUrl,
+          },
+        });
+      }
+    },
   },
 };
 </script>
@@ -153,10 +197,6 @@ export default {
 .form-select {
   margin-top: 30px;
   display: flex;
-  /*background-color: #1e2881;
-  color: white;*/
-}
-#questions {
   /*background-color: #1e2881;
   color: white;*/
 }

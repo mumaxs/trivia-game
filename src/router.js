@@ -16,17 +16,19 @@ const routes = [
         path: '/questions',
         name: 'questions',
         component: QuestionScreen,
-        props: true
+        props: true,
     },
 
     {
         path: '/results',
         name: 'results',
         component: ResultsScreen,
-        props: true
+        props: true,
     }
+
 ]
 
 const router = new VueRouter({ routes });
+
 
 export default router;
