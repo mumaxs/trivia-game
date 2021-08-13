@@ -69,6 +69,10 @@ export default {
       ],
     };
   },
+  /**
+   * Async created() that runs when when component is loaded. 
+   * Fetched the different categories that a player can choose between.
+   */
   async created() {
     try {
       const response = await fetch("https://opentdb.com/api_category.php");
@@ -79,6 +83,10 @@ export default {
     }
   },
   methods: {
+      /**
+       * Method for start Game Button. Get all vaules in select and input fields and build a API url for the game.
+       * Passes the created URL to QuestionsScreen compontent.
+       */
     setGameUrl() {
       //get selected category id
       for (let i = 0; i < this.categories.trivia_categories.length; i++) {
@@ -108,8 +116,9 @@ export default {
         this.difficultyId +
         "&type=" +
         this.gameTypeId;
-      console.log(this.startGameUrl);
+      //console.log(this.startGameUrl);
 
+      //render QuestionsScreen  
       this.$router.push({
         name: "questions",
         params: {
