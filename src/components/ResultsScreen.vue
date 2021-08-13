@@ -41,7 +41,6 @@ export default {
   data() {
     return {
       playerTotalScore: 0,
-      encodedQuestions: [],
       playerQuestionPoints: [],
     };
   },
@@ -54,7 +53,7 @@ export default {
       if (this.playerAnswers[i] === this.correctAnswers[i]) {
         this.playerTotalScore += 10;
         this.playerQuestionPoints[i]=10;
-      }else{
+      } else{
           this.playerQuestionPoints[i]=0;
       }
     }

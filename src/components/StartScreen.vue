@@ -91,7 +91,7 @@ export default {
        * Passes the created URL to QuestionsScreen compontent.
        */
     setGameUrl() {
-      if(this.numberOfQuestions >= 50) {
+      if(this.numberOfQuestions >= 50 || this.numberOfQuestions === "") {
         alert("Max number of questions is 50!")
       } else {
       //get selected category id

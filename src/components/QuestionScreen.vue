@@ -146,7 +146,7 @@ export default {
 </script>
 <style>
 #buttons {
-  padding: 1rem;
+  padding: 0.5rem;
   border-radius: 10px;
   border-width: 10px;
   border-color: #1e2881;
@@ -174,8 +174,5 @@ h3 {
   max-height: 65%;
   cursor: pointer;
   margin-top: 10rem;
-}
-.questionBox {
-  height: 20vh;
 }
 </style>
