@@ -57,7 +57,8 @@ export default {
    * Fetched the jsonfile with game data with the passed game api url from startscreen component.
    */
   async created() {
-      if (this.gameUrl === undefined) {
+    //Navigation guard if Url is undefined, redirect to start.
+      if (this.gameUrl === undefined) { 
           this.$router.push('/')
       }
     try {

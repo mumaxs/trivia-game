@@ -55,15 +55,11 @@ export default {
       playerQuestionPoints: [],
     };
   },
-  beforeEnter(){
-    if (this.gameUrlApi === undefined) {
-      this.$router.push('/');
-    }
-  },
   /**
    * Calculate the player score and also sets indivitual points for each question.
    */
   created() {
+    //Navigation guard if Url is undefined, redirect to start.
     if (this.playerAnswers === undefined) {
       this.$router.push('/');
     }else{
