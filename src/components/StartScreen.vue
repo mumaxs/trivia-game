@@ -47,6 +47,7 @@
 </template>
 
 <script>
+import { decode } from "html-entities"; //import library to decode html enteties.
 export default {
   name: "StartScreen",
   data() {
