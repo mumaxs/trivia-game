@@ -1,24 +1,18 @@
 <template>
-  <div class="container">
+  <div class="container" id="questionContainer">
     <h2>Question Screen</h2>
     <div v-if="gameData">
       <p>{{ getQuestion(index) }}</p>
 
-      <div>
-        <div class="btn-group" role="group">
-          <div class="options row">
-            <div
-              class="col questionBox"
-              v-for="answer in getAnswers(index)"
-              :key="answer.index"
-            >
+        <div>
+          <div class="row">
+            <div class="btn-group" v-for="answer in getAnswers(index)" :key="answer.index">
               <button id="buttons" class="btn btn-secondary" @click="setAnswer(answer)">
                 {{ answer }}
               </button>
             </div>
           </div>
         </div>
-      </div>
 
       <p v-if="this.index != this.gameQuestions.length - 1">
         <button class="btn btn-primary" @click="nextQuestion()">Next question</button>
@@ -373,12 +367,23 @@ export default {
   padding: 2rem;
   border-radius: 10px;
   border-width: 10px;
-  border-color: #4e6392;
+  border-color: #1e2881;
+  align-items: center;
+  margin: 20px;
 }
 .h2 {
   font-size: 4rem;
 }
-
+#questionContainer {
+  /*display: flex;
+  justify-content: center;
+  flex-flow: wrap;*/
+  display: grid;
+  justify-content: center;
+  max-width:100%; 
+  max-height: 100%;
+  cursor: pointer;
+}
 .questionBox {
   height: 20vh;
 }

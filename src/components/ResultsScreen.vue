@@ -1,22 +1,24 @@
 <template>
   <div class="container">
-    <div v-for="counter in this.gameQuestions.length" :key="counter.index">
+    
       <table class="table">
+        
         <thead>
           <th>Question {{counter}}</th>
           <th>Correct answer </th>
           <th>Your Answer </th>
         </thead>
-        <tbody>
+        <tbody v-for="counter in this.gameQuestions.length" :key="counter.index"> 
           <tr>
             <td>{{ getQuestion(counter - 1) }}</td>
             <td>{{ getCorrectAnswer(counter - 1) }}</td>
             <td>{{ getPlayerAwnser(counter - 1) }}</td>
-            <td>Score: {{ getPlayerQuestionPoints(counter - 1) }}</td>
+            <td>Score: {{ getPlayerQuestionPoints(counter - 1) }}</td> 
           </tr>
         </tbody>
+        
       </table>
-    </div>
+    
     <div>Total score {{this.playerTotalScore}}</div>
     <div class="resultButtons">
       <button class="btn btn-primary" @click="playAgain()">Play again</button>
