@@ -23,5 +23,7 @@ export default {
 }
 #appHeader {
   margin-top: 7rem;
+  font-style: italic;
+  font-size: 47pt;
 }
 </style>

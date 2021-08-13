@@ -150,7 +150,14 @@ export default {
   display: block;
   margin-bottom: 10px;
 }
-#formDiv {
-  background-color: brown;
+.form-select {
+  margin-top: 30px;
+  display: flex;
+  /*background-color: #1e2881;
+  color: white;*/
+}
+#questions {
+  /*background-color: #1e2881;
+  color: white;*/
 }
 </style>

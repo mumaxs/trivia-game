@@ -146,13 +146,15 @@ export default {
 </script>
 <style>
 #buttons {
-  padding: 2rem;
+  padding: 1rem;
   border-radius: 10px;
   border-width: 10px;
   border-color: #1e2881;
+  border-style: solid;
   align-items: center;
   margin: 20px;
   box-shadow: 0px 3px 0px #e2bc213a;
+  font-size: 1.5rem;
 }
 #buttons:hover {
   background: #00EEEE;
@@ -162,18 +164,16 @@ export default {
   background: #00EEEE;
   position: sticky;
 }
-.h2 {
-  font-size: 4rem;
+h3 {
+  font-size: 16pt;
+  color: teal;
 }
 #questionContainer {
-  /*display: flex;
-  justify-content: center;
-  flex-flow: wrap;*/
-  display: grid;
-  justify-content: center;
-  max-width:100%; 
-  max-height: 100%;
+  display: block;
+  max-width: 35%; 
+  max-height: 65%;
   cursor: pointer;
+  margin-top: 10rem;
 }
 .questionBox {
   height: 20vh;

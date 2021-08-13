@@ -13,24 +13,16 @@
             <td>{{ getPlayerAwnser(counter - 1) }}</td>
             <td>Score: {{ getPlayerQuestionPoints(counter - 1) }}</td> 
           </tr>
-        </tbody>
-        
+        </tbody>     
       </table>
     
-    <div>Total score {{this.playerTotalScore}}</div>
+    <div class="results">
+      <h2>Your total score from the quiz: {{this.playerTotalScore}}</h2>
+    </div>
     <div class="resultButtons">
-      <button class="btn btn-primary" @click="playAgain()">Play again</button>
-      <button class="btn btn-primary" @click="renderStartScreen()">Start screen</button>
+      <span><button class="btn btn-primary" @click="playAgain()">Play again</button></span>
+      <span><button class="btn btn-primary" @click="renderStartScreen()">Start screen</button></span>
     </div>
-
-    <!--<div v-for="counter in this.gameQuestions.length" :key="counter.index">
-      <p>Question {{ counter }}: {{ getQuestion(counter - 1) }}</p>
-      <p>Correct answer: {{ getCorrectAnswer(counter - 1) }}</p>
-      <p>Your answer: {{ getPlayerAwnser(counter - 1) }}</p>
-    </div>
-    <ul>
-      <li v-for="question of this.gameQuestions" :key="question">{{ question }}</li>
-    </ul>-->
   </div>
 </template>
 
@@ -109,5 +101,23 @@ export default {
 <style>
 #resultContainer {
   margin-top: 10rem;
+  display: grid;
+}
+table {
+  border-collapse: separate;
+  border-spacing: 1.5rem;
+}
+tr {
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+td {
+  padding: 25px;
+}
+.resultButtons {
+  margin: 10px
+}
+span + span {
+  margin-left: 2.5rem;
 }
 </style>
