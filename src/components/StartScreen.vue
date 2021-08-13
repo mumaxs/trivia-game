@@ -1,36 +1,58 @@
 <template>
-  <div>
-    <input
-      name="nrOfQ"
-      v-model="numberOfQuestions"
-      id="questions"
-      type="text"
-      placeholder="Number of questions"
-      required
-    />
+  <div class="container">
+    <form>
+      <div class="row">
+        <div class="col">
+          <input
+            name="nrOfQ"
+            class="form-control"
+            v-model="numberOfQuestions"
+            id="questions"
+            type="text"
+            placeholder="Number of questions"
+            required
+          />
+        </div>
+        <div class="col">
+          <select class="form-select" v-model="chosenCategory">
+            <option value="" disabled selected>Choose Category</option>
+            <option
+              v-for="category in this.categories.trivia_categories"
+              v-bind:key="category.id"
+            >
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+      </div>
 
-    <select class="choose-category" v-model="chosenCategory">
-      <option value="" disabled selected>Choose Category</option>
-      <option
-        v-for="category in this.categories.trivia_categories"
-        v-bind:key="category.id"
-      >
-        {{ category.name }}
-      </option>
-    </select>
-
-    <select class="chose-game-difficulty" v-model="chosenDifficulty">
-      <option value="" disabled selected>Choose Difficulty</option>
-      <option v-for="difficulty in this.difficulties" :key="difficulty.id">
-        {{ difficulty.name }}
-      </option>
-    </select>
-
-    <select class="choose-game-style" v-model="chosenGameStyle">
-      <option value="" disabled selected>Choose Game</option>
-      <option v-for="game in this.games" :key="game.id">{{ game.name }}</option>
-    </select>
-    <button type="button" class="btn btn-primary" @click="setGameUrl()">Start Game</button>
+      <div class="row" id="row2">
+        <div class="col">
+          <select class="form-select" v-model="chosenDifficulty">
+            <option value="" disabled selected>Choose Difficulty</option>
+            <option
+              v-for="difficulty in this.difficulties"
+              :key="difficulty.id"
+            >
+              {{ difficulty.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col">
+          <select class="form-select" v-model="chosenGameStyle">
+            <option value="" disabled selected>Choose Game</option>
+            <option v-for="game in this.games" :key="game.id">
+              {{ game.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div id="buttonDiv">
+        <button type="button" class="btn btn-primary" @click="setGameUrl()">
+          Start Game
+        </button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -49,7 +71,7 @@ export default {
       gameTypeId: "",
       startGameUrl: "",
       games: [
-        { id: "multiple", name: "Multipy Awnser" },
+        { id: "multiple", name: "Multipy Answer" },
         { id: "boolean", name: "True or False" },
       ],
       difficulties: [
@@ -110,4 +132,12 @@ export default {
   },
 };
 </script>
+<style>
+#row2 {
+  margin-top: 50px;
+}
 
+#buttonDiv {
+  margin-top: 30px;
+}
+</style>

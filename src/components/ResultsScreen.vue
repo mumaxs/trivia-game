@@ -1,35 +1,74 @@
 <template>
-  <div>
+  <div class="container">
     <div v-for="counter in this.gameQuestions.length" :key="counter.index">
+      <table class="table">
+        <thead>
+          <th>Question {{counter}}</th>
+          <th>Correct answer </th>
+          <th>Your Answer </th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ getQuestion(counter - 1) }}</td>
+            <td>{{ getCorrectAnswer(counter - 1) }}</td>
+            <td>{{ getPlayerAwnser(counter - 1) }}</td>
+            <td>Score: {{ getPlayerQuestionPoints(counter - 1) }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div>Total socore {{playerTotalScore}}</div>
+    <div class="resultButtons">
+      <button class="btn btn-primary" @click="playAgain()">Play again</button>
+      <button class="btn btn-primary" @click="renderStartScreen()">Start screen</button>
+    </div>
+
+    <!--<div v-for="counter in this.gameQuestions.length" :key="counter.index">
       <p>Question {{ counter }}: {{ getQuestion(counter - 1) }}</p>
       <p>Correct answer: {{ getCorrectAnswer(counter - 1) }}</p>
       <p>Your answer: {{ getPlayerAwnser(counter - 1) }}</p>
     </div>
-
-    <p>Score: {{ playerPoints }}</p>
-    <button @click="playAgain()">Play again</button>
-    <button @click="renderStartScreen()">Start screen</button>
+    <ul>
+      <li v-for="question of this.gameQuestions" :key="question">{{ question }}</li>
+    </ul>-->
   </div>
 </template>
 
 <script>
+//import { getStorage } from '../utils/storage'
+
 export default {
   name: "ResultsScreen",
-  props: ["playerAnswers", "correctAnswers", "gameQuestions", "answersInOrder", "gameUrlApi"],
+  props: [
+    "playerAnswers",
+    "correctAnswers",
+    "gameQuestions",
+    "answersInOrder",
+    "gameUrlApi",
+  ],
   data() {
     return {
-      playerPoints: 0,
+      playerTotalScore: 0,
+      encodedQuestions: [],
+      playerQuestionPoints: [],
     };
   },
   created() {
+    //this.gameQuestions = getStorage("encodeQuestions")
     for (let i = 0; i < this.correctAnswers.length; i++) {
       if (this.playerAnswers[i] === this.correctAnswers[i]) {
         this.playerPoints += 10;
+        this.playerQuestionPoints[i]=10;
+      }else{
+          this.playerQuestionPoints[i]=0;
       }
     }
-    console.log(this.gameUrlApi)
+    console.log(this.gameUrlApi);
   },
   methods: {
+    getPlayerQuestionPoints(index){
+        return this.playerQuestionPoints[index];        
+    },
     getQuestion(index) {
       return this.gameQuestions[index];
     },
@@ -40,18 +79,18 @@ export default {
       return this.playerAnswers[index];
     },
     renderStartScreen() {
-        this.$router.push({
-            name: 'startscreen'
-        });
+      this.$router.push({
+        name: "startscreen",
+      });
     },
     playAgain() {
-        console.log(this.gameUrlApi)
-        this.$router.push({
-            name: 'questions',
-            params: {
-                gameUrl: this.gameUrlApi,
-            }
-        });
+      console.log(this.gameUrlApi);
+      this.$router.push({
+        name: "questions",
+        params: {
+          gameUrl: this.gameUrlApi,
+        },
+      });
     },
   },
 };

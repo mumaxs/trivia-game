@@ -1,22 +1,37 @@
 <template>
-  <div>
+  <div class="container">
     <h2>Question Screen</h2>
     <div v-if="gameData">
       <p>{{ getQuestion(index) }}</p>
-      <p v-for="answer in getAnswers(index)" :key="answer.index">
-        <button @click="setAnswer(answer)">{{ answer }}</button>
-      </p>
+
+      <div>
+        <div class="btn-group" role="group">
+          <div class="options row">
+            <div
+              class="col questionBox"
+              v-for="answer in getAnswers(index)"
+              :key="answer.index"
+            >
+              <button id="buttons" class="btn btn-secondary" @click="setAnswer(answer)">
+                {{ answer }}
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <p v-if="this.index != this.gameQuestions.length - 1">
-        <button @click="nextQuestion()">Next question</button>
+        <button class="btn btn-primary" @click="nextQuestion()">Next question</button>
       </p>
       <p v-if="this.index === this.gameQuestions.length - 1">
-        <button @click="submitAnswers()">Submit score</button>
+        <button class="btn btn-success" @click="submitAnswers()">Submit score</button>
       </p>
     </div>
   </div>
 </template>
 
 <script>
+//import { setStorage } from "../utils/storage";
 export default {
   name: "QuestionScreen",
   props: ["gameUrl"],
@@ -290,7 +305,7 @@ export default {
       for (let i = 0; i < this.gameWrongAnswers[index].length; i++) {
         temp.push(this.decodeString(this.gameWrongAnswers[index][i]));
       }
-      temp.push(this.gameRightAnswer[index]);
+      temp.push(this.decodeString(this.gameRightAnswer[index]));
       temp = this.shuffle(temp);
       return temp;
     },
@@ -328,3 +343,18 @@ export default {
   },
 };
 </script>
+<style>
+#buttons {
+  padding: 2rem;
+  border-radius: 10px;
+  border-width: 10px;
+  border-color: #4e6392;
+}
+.h2 {
+  font-size: 4rem;
+}
+
+.questionBox {
+  height: 20vh;
+}
+</style>
