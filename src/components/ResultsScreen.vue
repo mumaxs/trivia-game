@@ -17,7 +17,7 @@
         </tbody>
       </table>
     </div>
-    <div>Total socore {{playerTotalScore}}</div>
+    <div>Total score {{this.playerTotalScore}}</div>
     <div class="resultButtons">
       <button class="btn btn-primary" @click="playAgain()">Play again</button>
       <button class="btn btn-primary" @click="renderStartScreen()">Start screen</button>
@@ -60,7 +60,7 @@ export default {
     //this.gameQuestions = getStorage("encodeQuestions")
     for (let i = 0; i < this.correctAnswers.length; i++) {
       if (this.playerAnswers[i] === this.correctAnswers[i]) {
-        this.playerPoints += 10;
+        this.playerTotalScore += 10;
         this.playerQuestionPoints[i]=10;
       }else{
           this.playerQuestionPoints[i]=0;
