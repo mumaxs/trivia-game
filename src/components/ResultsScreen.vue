@@ -1,34 +1,45 @@
 <template>
   <div class="container" id="resultContainer">
-      <table class="table">
-        <thead>
-          <th>Question {{counter}}</th>
-          <th>Correct answer </th>
-          <th>Your Answer </th>
-        </thead>
-        <tbody v-for="counter in this.gameQuestions.length" :key="counter.index"> 
-          <tr>
-            <td>{{ getQuestion(counter - 1) }}</td>
-            <td>{{ getCorrectAnswer(counter - 1) }}</td>
-            <td>{{ getPlayerAwnser(counter - 1) }}</td>
-            <td>Score: {{ getPlayerQuestionPoints(counter - 1) }}</td> 
-          </tr>
-        </tbody>     
-      </table>
-    
+    <table class="table">
+      <thead>
+        <th>Question</th>
+        <th>Correct answer</th>
+        <th>Your Answer</th>
+      </thead>
+      <tbody v-for="counter in this.gameQuestions.length" :key="counter.index">
+        <tr>
+          <td>{{ getQuestion(counter - 1) }}</td>
+          <td>{{ getCorrectAnswer(counter - 1) }}</td>
+          <td v-if="correctAnswer(counter - 1)">
+            {{ getPlayerAnswer(counter - 1) }}
+          </td>
+          <td v-if="!correctAnswer(counter - 1)">
+            {{ getPlayerAnswer(counter - 1) }}
+          </td>
+          <td>Score: {{ getPlayerQuestionPoints(counter - 1) }}</td>
+        </tr>
+      </tbody>
+    </table>
+
     <div class="results">
-      <h2>Your total score from the quiz: {{this.playerTotalScore}}</h2>
+      <h2>Your total score from the quiz: {{ this.playerTotalScore }}</h2>
     </div>
     <div class="resultButtons">
-      <span><button class="btn btn-primary" @click="playAgain()">Play again</button></span>
-      <span><button class="btn btn-primary" @click="renderStartScreen()">Start screen</button></span>
+      <span
+        ><button class="btn btn-primary" @click="playAgain()">
+          Play again
+        </button></span
+      >
+      <span
+        ><button class="btn btn-primary" @click="renderStartScreen()">
+          Start screen
+        </button></span
+      >
     </div>
   </div>
 </template>
 
 <script>
-//import { getStorage } from '../utils/storage'
-
 export default {
   name: "ResultsScreen",
   props: [
@@ -45,18 +56,27 @@ export default {
       playerQuestionPoints: [],
     };
   },
+  beforeEnter(){
+    if (this.gameUrlApi === undefined) {
+      this.$router.push('/');
+    }
+  },
   /**
    * Calculate the player score and also sets indivitual points for each question.
    */
   created() {
+    if (this.playerAnswers === undefined) {
+      this.$router.push('/');
+    }else{
     //this.gameQuestions = getStorage("encodeQuestions")
-    for (let i = 0; i < this.correctAnswers.length; i++) {
-      if (this.playerAnswers[i] === this.correctAnswers[i]) {
-        this.playerTotalScore += 10;
-        this.playerQuestionPoints[i]=10;
-      }else{
-          this.playerQuestionPoints[i]=0;
-      }
+        for (let i = 0; i < this.correctAnswers.length; i++) {
+          if (this.playerAnswers[i] === this.correctAnswers[i]) {
+            this.playerTotalScore += 10;
+            this.playerQuestionPoints[i]=10;
+          }else{
+              this.playerQuestionPoints[i]=0;
+          }
+        }
     }
     console.log(this.gameUrlApi);
   },
@@ -70,8 +90,15 @@ export default {
     getCorrectAnswer(index) {
       return this.correctAnswers[index];
     },
-    getPlayerAwnser(index) {
+    getPlayerAnswer(index) {
       return this.playerAnswers[index];
+    },
+    correctAnswer(index){
+        if(this.playerAnswers[index]===this.correctAnswers[index]){
+            return true;
+        }else{
+            return false;
+        }
     },
     /**
      * Returns to start screen.
@@ -115,7 +142,7 @@ td {
   padding: 25px;
 }
 .resultButtons {
-  margin: 10px
+  margin: 10px;
 }
 span + span {
   margin-left: 2.5rem;

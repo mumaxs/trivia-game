@@ -2,48 +2,47 @@
   <div class="container" id="mainContainer">
     <div id="form-div">
       <form>
-      <input
-        name="nrOfQ"
-        class="form-control"
-        v-model="numberOfQuestions"
-        id="questions"
-        type="text"
-        placeholder="Number of questions"
-        required
-      />
+        <input
+          name="nrOfQ"
+          class="form-control"
+          v-model="numberOfQuestions"
+          id="questions"
+          type="number"
+          placeholder="Number of questions"
+          required
+        />
 
-      <select class="form-select" v-model="chosenCategory">
-        <option value="" disabled selected>Choose Category</option>
-        <option
-          v-for="category in this.categories.trivia_categories"
-          v-bind:key="category.id"
-        >
-          {{ category.name }}
-        </option>
-      </select>
+        <select class="form-select" v-model="chosenCategory">
+          <option value="" disabled selected>Choose Category</option>
+          <option
+            v-for="category in this.categories.trivia_categories"
+            v-bind:key="category.id"
+          >
+            {{ category.name }}
+          </option>
+        </select>
 
-      <select class="form-select" v-model="chosenDifficulty">
-        <option value="" disabled selected>Choose Difficulty</option>
-        <option v-for="difficulty in this.difficulties" :key="difficulty.id">
-          {{ difficulty.name }}
-        </option>
-      </select>
+        <select class="form-select" v-model="chosenDifficulty">
+          <option value="" disabled selected>Choose Difficulty</option>
+          <option v-for="difficulty in this.difficulties" :key="difficulty.id">
+            {{ difficulty.name }}
+          </option>
+        </select>
 
-      <select class="form-select" v-model="chosenGameStyle">
-        <option value="" disabled selected>Choose Game</option>
-        <option v-for="game in this.games" :key="game.id">
-          {{ game.name }}
-        </option>
-      </select>
+        <select class="form-select" v-model="chosenGameStyle">
+          <option value="" disabled selected>Choose Game</option>
+          <option v-for="game in this.games" :key="game.id">
+            {{ game.name }}
+          </option>
+        </select>
 
-      <div id="buttonDiv">
-        <button type="button" class="btn btn-primary" @click="setGameUrl()">
-          Start Game
-        </button>
-      </div>
-    </form>
+        <div id="buttonDiv">
+          <button type="button" class="btn btn-primary" @click="setGameUrl()">
+            Start Game
+          </button>
+        </div>
+      </form>
     </div>
-    
   </div>
 </template>
 
@@ -73,7 +72,7 @@ export default {
     };
   },
   /**
-   * Async created() that runs when when component is loaded. 
+   * Async created() that runs when when component is loaded.
    * Fetched the different categories that a player can choose between.
    */
   async created() {
@@ -86,52 +85,55 @@ export default {
     }
   },
   methods: {
-      /**
-       * Method for start Game Button. Get all vaules in select and input fields and build a API url for the game.
-       * Passes the created URL to QuestionsScreen compontent.
-       */
+    /**
+     * Method for start Game Button. Get all vaules in select and input fields and build a API url for the game.
+     * Passes the created URL to QuestionsScreen compontent.
+     */
     setGameUrl() {
-      if(this.numberOfQuestions >= 50) {
-        alert("Max number of questions is 50!")
-      } else {
-      //get selected category id
-      for (let i = 0; i < this.categories.trivia_categories.length; i++) {
-        if (this.categories.trivia_categories[i].name === this.chosenCategory) {
-          this.categoryId = this.categories.trivia_categories[i].id;
+      if (this.numberOfQuestions <= 0 || this.numberOfQuestions > 50) {
+          alert("Enter a number between 1-50");
+      }else{
+        //get selected category id
+        for (let i = 0; i < this.categories.trivia_categories.length; i++) {
+          if (
+            this.categories.trivia_categories[i].name === this.chosenCategory
+          ) {
+            this.categoryId = this.categories.trivia_categories[i].id;
+          }
         }
-      }
-      //get selected difficulty id
-      for (let i = 0; i < this.difficulties.length; i++) {
-        if (this.difficulties[i].name === this.chosenDifficulty) {
-          this.difficultyId = this.difficulties[i].id;
+        //get selected difficulty id
+        for (let i = 0; i < this.difficulties.length; i++) {
+          if (this.difficulties[i].name === this.chosenDifficulty) {
+            this.difficultyId = this.difficulties[i].id;
+          }
         }
-      }
-      //get selected gamestyle id
-      for (let i = 0; i < this.games.length; i++) {
-        if (this.games[i].name === this.chosenGameStyle) {
-          this.gameTypeId = this.games[i].id;
+        //get selected gamestyle id
+        for (let i = 0; i < this.games.length; i++) {
+          if (this.games[i].name === this.chosenGameStyle) {
+            this.gameTypeId = this.games[i].id;
+          }
         }
-      }
-      //set game api url
-      this.startGameUrl =
-        "https://opentdb.com/api.php?amount=" +
-        this.numberOfQuestions +
-        "&category=" +
-        this.categoryId +
-        "&difficulty=" +
-        this.difficultyId +
-        "&type=" +
-        this.gameTypeId;
-      //console.log(this.startGameUrl);
+        //set game api url
+        this.startGameUrl =
+          "https://opentdb.com/api.php?amount=" +
+          this.numberOfQuestions +
+          "&category=" +
+          this.categoryId +
+          "&difficulty=" +
+          this.difficultyId +
+          "&type=" +
+          this.gameTypeId;
+        //console.log(this.startGameUrl);
 
-      //render QuestionsScreen  
-      this.$router.push({
-        name: "questions",
-        params: {
-          gameUrl: this.startGameUrl,
-        },
-      });
-    }}, 
+        //render QuestionsScreen
+        this.$router.push({
+          name: "questions",
+          params: {
+            gameUrl: this.startGameUrl,
+          },
+        });
+      }
+    },
   },
 };
 </script>
